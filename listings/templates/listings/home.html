@@ -1,0 +1,33 @@
+<!-- rent_easy/listings/templates/listings/home.html -->
+{% load static %} <!-- Загрузка статического тега -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Подключение ваших стилей -->
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать в Rent Easy!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'property_list' %}">Жильё</a></li>
+                <li><a href="{% url 'tenant_profile' %}">Профиль арендатора</a></li> <!-- Ссылка на профиль арендатора -->
+                <li><a href="{% url 'landlord_profile' %}">Профиль арендодателя</a></li> <!-- Ссылка на профиль арендодателя -->
+                <li><a href="{% url 'contacts' %}">Контакты</a></li> <!-- Ссылка на контакты -->
+                <li><a href="{% url 'search' %}">Поиск</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Обзор</h2>
+        <p>Здесь вы можете найти жильё на любой вкус.</p>
+        <!-- Дополнительный контент главной страницы -->
+    </main>
+    <footer>
+        <p>&copy; 2024 Rent Easy. Все права защищены.</p>
+    </footer>
+</body>
+</html>

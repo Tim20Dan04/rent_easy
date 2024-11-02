@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакты - RentEasy{% endblock %}
+
+{% block content %}
+<h2>Контакты</h2>
+<p>Если у вас есть вопросы, пожалуйста, свяжитесь с нами:</p>
+
+<form method="POST" action="{% url 'contacts' %}">
+    {% csrf_token %}
+    <label for="name">Имя:</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required>
+
+    <label for="message">Сообщение:</label>
+    <textarea name="message" id="message" required></textarea>
+
+    <button type="submit">Отправить</button>
+</form>
+
+<h3>Часто задаваемые вопросы (FAQ)</h3>
+<ul>
+    <li><strong>Как мне забронировать жилье?</strong> Просто заполните форму на странице поиска и выберите понравившийся объект.</li>
+    <li><strong>Какие условия аренды?</strong> Условия могут различаться в зависимости от арендодателя. Пожалуйста, читайте информацию на странице конкретного жилья.</li>
+</ul>
+{% endblock %}

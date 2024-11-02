@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Арендодателя</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h2>Поиск жилья</h2>
+    </header>
+    <main>
+        <form method="GET" action="{% url 'search' %}">
+        <label for="location">Локация:</label>
+        <input type="text" name="location" id="location" required>
+
+        <label for="property_type">Тип недвижимости:</label>
+        <select name="property_type" id="property_type">
+            <option value="">Все типы</option>
+            <option value="квартира">Квартира</option>
+            <option value="дом">Дом</option>
+            <option value="комната">Комната</option>
+        </select>
+
+        <label for="price">Максимальная цена:</label>
+        <input type="number" name="price" id="price" min="0" step="0.01">
+
+        <button type="submit">Поиск</button>
+    </form>
+
+    <h3>Результаты поиска</h3>
+    <ul>
+        {% for property in properties %}
+            <li>
+                <h4>{{ property.title }}</h4>
+                <p>{{ property.description }}</p>
+                <p>Цена: {{ property.price }} ₽</p>
+                <p>Локация: {{ property.location }}</p>
+            </li>
+        {% empty %}
+            <li>Нет доступных объектов.</li>
+        {% endfor %}
+    </ul>
+    </main>

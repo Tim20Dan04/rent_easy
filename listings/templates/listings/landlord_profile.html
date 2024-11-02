@@ -1,0 +1,24 @@
+<!-- rent_easy/listings/templates/listings/landlord_profile.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Арендодателя</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Профиль Арендодателя</h1>
+    </header>
+    <main>
+        <h2>{{ profile.user.username }}</h2>
+        <p>Название компании: {{ profile.company_name }}</p>
+        <p>Номер лицензии: {{ profile.license_number }}</p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Rent Easy. Все права защищены.</p>
+    </footer>
+</body>
+</html>

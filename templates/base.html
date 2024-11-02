@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RentEasy{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'listings/styles.css' %}">  <!-- Путь к вашему CSS файлу -->
+</head>
+<body>
+    <header>
+        <h1>RentEasy</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'search' %}">Поиск</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 RentEasy. Все права защищены.</p>
+    </footer>
+</body>
+</html>
