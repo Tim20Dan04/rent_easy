@@ -1,0 +1,5 @@
+/venv
+/listings/migrations
+/listings/__pycache__
+
+/rent_easy/__pycache__

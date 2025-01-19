@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить недвижимость</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Подключите свой CSS, если нужно -->
+</head>
+<body>
+    <a href="{% url 'home' %}">Главная</a>
+    <header>
+        <h1>Добро пожаловать в Rent Easy!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'property_list' %}">Жильё</a></li>
+                <li><a href="{% url 'tenant_profile' %}">Профиль арендатора</a></li> <!-- Ссылка на профиль арендатора -->
+                <li><a href="{% url 'landlord_profile' %}">Профиль арендодателя</a></li> <!-- Ссылка на профиль арендодателя -->
+                <li><a href="{% url 'contacts' %}">Контакты</a></li> <!-- Ссылка на контакты -->
+                <li><a href="{% url 'property_search' %}">Поиск</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Добавить недвижимость</h1>
+            {% if form %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Добавить жилье</button>
+            </form>
+            {% else %}
+                <p>Форма не передана в шаблон.</p>
+            {% endif %}
+
+            <a href="{% url 'property_list' %}">Назад к списку недвижимости</a> <!-- Ссылка для возврата к списку -->
+        </div>
+    </main>
+</body>
+</html>

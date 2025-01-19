@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Арендодателя</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Профиль арендатора</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'property_list' %}">Жильё</a></li>
+                <li><a href="{% url 'tenant_profile' %}">Профиль арендатора</a></li> <!-- Ссылка на профиль арендатора -->
+                <li><a href="{% url 'landlord_profile' %}">Профиль арендодателя</a></li> <!-- Ссылка на профиль арендодателя -->
+                <li><a href="{% url 'contacts' %}">Контакты</a></li> <!-- Ссылка на контакты -->
+                <li><a href="{% url 'property_search' %}">Поиск</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="tenant-profile">
+            <h1>{{ tenant.username }}'s Profile</h1>
+            <p><strong>Описание:</strong> {{ tenant.description }}</p>
+            <p><strong>Город:</strong> {{ tenant.city }}</p>
+            <p><strong>Тип недвижимости:</strong> {{ tenant.property_type }}</p>
+            <p><strong>Цена:</strong> {{ tenant.price }} ₽</p>
+
+            <h2>Дополнительные характеристики</h2>
+            <ul>
+                <li>Балкон: {{ tenant.balcony|yesno:"Да,Нет" }}</li>
+                <li>Парковка: {{ tenant.parking|yesno:"Да,Нет" }}</li>
+                <li>Мебель: {{ tenant.furniture|yesno:"Да,Нет" }}</li>
+                <li>Разрешены домашние животные: {{ tenant.pets_allowed|yesno:"Да,Нет" }}</li>
+                <li>WiFi: {{ tenant.wifi|yesno:"Да,Нет" }}</li>
+                <li>История аренды</li>
+            </ul>
+        </div>
+    </main>
+    
+</body>

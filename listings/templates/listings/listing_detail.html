@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Арендодателя</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать в Rent Easy!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'property_list' %}">Жильё</a></li>
+                <li><a href="{% url 'tenant_profile' %}">Профиль арендатора</a></li> <!-- Ссылка на профиль арендатора -->
+                <li><a href="{% url 'landlord_profile' %}">Профиль арендодателя</a></li> <!-- Ссылка на профиль арендодателя -->
+                <li><a href="{% url 'contacts' %}">Контакты</a></li> <!-- Ссылка на контакты -->
+                <li><a href="{% url 'property_search' %}">Поиск</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h2>{{ property.title }}</h2>
+    <p><strong>Описание:</strong> {{ property.description }}</p>
+    <p><strong>Город:</strong> {{ property.city }}</p>
+    <p><strong>Район:</strong> {{ property.district }}</p>
+    <p><strong>Тип жилья:</strong> {{ property.property_type }}</p>
+    <p><strong>Количество комнат:</strong> {{ property.num_rooms }}</p>
+    <p><strong>Цена:</strong> {{ property.price }} руб./мес.</p>
+    <p><strong>Дополнительные характеристики:</strong></p>
+    <ul>
+        <li>Балкон: {{ property.balcony|yesno:"Да,Нет" }}</li>
+        <li>Парковка: {{ property.parking|yesno:"Да,Нет" }}</li>
+        <li>Мебель: {{ property.furniture|yesno:"Да,Нет" }}</li>
+        <li>Животные: {{ property.pets_allowed|yesno:"Да,Нет" }}</li>
+        <li>Wi-Fi: {{ property.wifi|yesno:"Да,Нет" }}</li>
+    </ul>
+
+    <a href="mailto:{{ property.owner.email }}">Связаться с арендодателем</a>
+
+    <button type="button" onclick="addToFavorites({{ property.id }})">Добавить в избранное</button>
+
+    <script>
+    function addToFavorites(propertyId) {
+        // Логика добавления в избранное
+        alert('Объект ' + propertyId + ' добавлен в избранное!');
+    }
+    </script>
+</body>

@@ -1,0 +1,56 @@
+<!-- templates/property_list.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Подключение ваших стилей -->
+    <title>Список недвижимости</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Главная</a>
+    <header>
+        <h1>Добро пожаловать в Rent Easy!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'property_list' %}">Жильё</a></li>
+                <li><a href="{% url 'tenant_profile' %}">Профиль арендатора</a></li> <!-- Ссылка на профиль арендатора -->
+                <li><a href="{% url 'landlord_profile' %}">Профиль арендодателя</a></li> <!-- Ссылка на профиль арендодателя -->
+                <li><a href="{% url 'contacts' %}">Контакты</a></li> <!-- Ссылка на контакты -->
+                <li><a href="{% url 'property_search' %}">Поиск</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+    <h1>Список недвижимости</h1>
+    <img src="image.png" alt="image">
+    <ul>
+        {% for property in properties %}
+            <li>
+                {% if property.image %}
+                    <img src="{{ property.image.url }}" alt="{{ property.title }}" style="max-width: 200px;"/>
+                {% endif %}
+                <h2>{{ property.title }}</h2>
+                <p>{{ property.description }}</p>
+                <p>Тип: {{ property.property_type }}</p>
+                <p>Цена: {{ property.price }} руб.</p>
+                <p>Арендодатель: {{ property.landlord.name }}</p>
+                <p>Комнат: {{ property.room_count }}</p>
+                <p>Балкон: {{ property.balcony }}</p>
+                <p>Парковка: {{ property.parking }}</p>
+                <p>WiFi: {{ property.wifi }}</p>
+                <a type="tel" href="8999999999">{{ property.landlord.phone }}</a>
+                <div>
+                    <button>Добавить в избранное</button>
+                    <div class="favor"></div>
+                </div>
+                
+            </li>
+        {% empty %}
+            <li>Нет доступной недвижимости.</li>
+        {% endfor %}
+    </ul>
+    </main>
+</body>
+</html>

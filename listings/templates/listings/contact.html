@@ -1,0 +1,47 @@
+{% load static %} <!-- Загрузка статического тега -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Подключение ваших стилей -->
+</head>
+<body>
+    <a href="{% url 'home' %}">Главная</a>
+    <header>
+        <h1>Добро пожаловать в Rent Easy!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'property_list' %}">Жильё</a></li>
+                <li><a href="{% url 'tenant_profile' %}">Профиль арендатора</a></li> <!-- Ссылка на профиль арендатора -->
+                <li><a href="{% url 'landlord_profile' %}">Профиль арендодателя</a></li> <!-- Ссылка на профиль арендодателя -->
+                <li><a href="{% url 'contacts' %}">Контакты</a></li> <!-- Ссылка на контакты -->
+                <li><a href="{% url 'property_search' %}">Поиск</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Контакты</h2>
+        <p>Если у вас есть вопросы, пожалуйста, свяжитесь с нами:</p>
+
+        <form method="POST" action="{% url 'contacts' %}">
+            {% csrf_token %}
+            <label for="name">Имя:</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="message">Сообщение:</label>
+            <textarea name="message" id="message" required></textarea>
+
+            <button type="submit">Отправить</button>
+        </form>
+
+        <h3>Часто задаваемые вопросы (FAQ)</h3>
+        <ul>
+            <li><strong>Как мне забронировать жилье?</strong> Просто заполните форму на странице поиска и выберите понравившийся объект.</li>
+            <li><strong>Какие условия аренды?</strong> Условия могут различаться в зависимости от арендодателя. Пожалуйста, читайте информацию на странице конкретного жилья.</li>
+        </ul>
+</main>
