@@ -14,4 +14,6 @@ urlpatterns = [
 
     path('properties/', views.property_list, name='property_list'),
     path('create/', views.create_property, name='create_property'),
+
+    path('ajax/load-cities/', views.load_cities, name='ajax_load_cities'),
 ]

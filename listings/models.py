@@ -3,25 +3,13 @@ from django.contrib.auth.models import User
 
 
 class Property(models.Model):
-    PROPERTY_TYPE_CHOICES = [
-        ('apartment', 'Квартира'),
-        ('house', 'Дом'),
-        ('room', 'Комната'),
-    ]
-    PROPERTY_CITY_CHOICES = [
-        ('kiev', 'Киев'),
-        ('paris', 'Париж'),
-        ('munhen', 'Мюнхен'),
-        ('moscow', 'Москва'),
-        ('piter', 'Питер')
-    ]
 
     title = models.CharField("Название", max_length=100)
-    description = models.TextField("Описание")
     city = models.ForeignKey('City', on_delete=models.CASCADE, related_name='cities')
     # city = models.CharField("Город", max_length=255, default="Moscow", choices=PROPERTY_CITY_CHOICES)
     district = models.TextField("Район", max_length=255, default=False)
-    property_type = models.CharField("Тип жилья", max_length=50, choices=PROPERTY_TYPE_CHOICES)
+    property_type = models.ForeignKey("PropertyType", on_delete=models.CASCADE, related_name='property_type', verbose_name="Тип жилья", default=0, null=False)
+    description = models.TextField("Описание")
     room_count = models.IntegerField("Количество комнат", default=1)
     price = models.DecimalField("Цена", max_digits=10, decimal_places=2)
     balcony = models.BooleanField("Балкон", default=False)
@@ -31,7 +19,13 @@ class Property(models.Model):
     image = models.ImageField(upload_to='properties/', blank=True, null=True)
     
     def __str__(self):
-        return f"{self.title} - {self.landlord.name}"
+        return f"{self.title}"
+
+class PropertyType(models.Model):
+    name = models.CharField("Тип жилья", max_length=50)
+
+    def __str__(self):
+        return self.name
 
 class Country(models.Model):
     name = models.CharField("Страна",  max_length=100)
@@ -47,7 +41,7 @@ class City(models.Model):
         return f"{self.name} {self.country.name}"
 
 class Landlord(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="landlord_profile")
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="landlord_profile")
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)

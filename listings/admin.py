@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ExportMixin
 from import_export import resources
-from .models import Landlord, Property
+from .models import Landlord, Property, City, Country, PropertyType
 
 
 
@@ -37,3 +37,24 @@ class PropertyAdmin(ExportMixin, admin.ModelAdmin):
     list_filter = ('city', 'property_type', 'balcony', 'parking', 'wifi', 'landlord')
     search_fields = ('title', 'district', 'landlord__name')
     ordering = ('-price',)
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    ordering = ('name',)
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    ordering = ('name',)
+
+@admin.register(PropertyType)
+class PropertyTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    ordering = ('name',)

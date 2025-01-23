@@ -34,3 +34,30 @@
             {% endfor %}
         </ul>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#id_country').change(function () {
+                const countryId = $(this).val();  // Получаем выбранную страну
+                if (countryId) {
+                    $.ajax({
+                        url: '/ajax/load-cities/',  // URL из urls.py
+                        data: {
+                            country_id: countryId  // Передаем ID страны
+                        },
+                        success: function (data) {
+                            const citySelect = $('#id_city');
+                            citySelect.empty();  // Очищаем старые данные
+                            citySelect.append('<option value="">---------</option>');  // Добавляем пустую опцию
+                            data.cities.forEach(function (city) {
+                                citySelect.append(new Option(city.name, city.id));  // Добавляем новые опции
+                            });
+                        }
+                    });
+                } else {
+                    $('#id_city').empty();  // Если страна не выбрана, очищаем список городов
+                }
+            });
+        });
+    </script>
+</body>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Property, TenantProfile, LandlordProfile
+from django.http import JsonResponse
+from .models import Property, TenantProfile, LandlordProfile, City
 from .forms import PropertySearchForm, PropertyForm
 
 
@@ -97,3 +98,9 @@ def create_property(request):
     else:
         form = PropertyForm()
     return render(request, 'listings/create_property.html', {'form': form})
+
+def load_cities(request):
+    country_id = request.GET.get('country_id')  # Получаем ID страны из запроса
+    cities = City.objects.filter(country_id=country_id).order_by('name')  # Фильтруем города
+    city_list = [{'id': city.id, 'name': city.name} for city in cities]  # Подготавливаем данные
+    return JsonResponse({'cities': city_list})  # Возвращаем данные в формате JSON
