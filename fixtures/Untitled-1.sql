@@ -1,4 +1,4 @@
--- database: ./db.sqlite3
+-- database: c:\Users\timof\Desktop\Poly\rent_easy\db.sqlite3
 
 SELECT * FROM listings_country;
 INSERT INTO listings_country (id, name) VALUES (1, 'United States');

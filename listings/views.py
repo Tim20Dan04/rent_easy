@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Property, TenantProfile, LandlordProfile, City
 from .forms import PropertySearchForm, PropertyForm
+from django.core.paginator import Paginator
+
 
 
 def property_list(request):
@@ -45,7 +47,7 @@ def property_search(request):
     properties = Property.objects.all()  # Начинаем с всех объектов
 
     if request.method == 'GET':
-        form = PropertySearchForm(request.GET)
+        form = PropertySearchForm(request.GET or None)
 
         if form.is_valid():
             city = form.cleaned_data.get('city')
@@ -62,7 +64,7 @@ def property_search(request):
 
             # Применяем фильтры
             if city:
-                properties = properties.filter(city__icontains=city)
+                properties = properties.filter(city=city)
             if district:
                 properties = properties.filter(district__icontains=district)
             if property_type:
@@ -86,6 +88,16 @@ def property_search(request):
 
     else:
         form = PropertySearchForm()
+
+    paginator = Paginator(properties, 6)  # 6 объектов на страницу
+    page_number = request.GET.get('page')  # текущая страница из GET-параметра
+    page_obj = paginator.get_page(page_number)  # получаем соответствующую страницу
+
+    return render(request, 'listings/property_search.html', {
+        'form': form,
+        'page_obj': page_obj,
+        'properties': page_obj.object_list,  # чтобы не менять шаблон сильно
+    })
 
     return render(request, 'listings/property_search.html', {'form': form, 'properties': properties})
 

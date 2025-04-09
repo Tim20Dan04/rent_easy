@@ -1,0 +1,87 @@
+[
+    {
+        "model": "listings.property",
+        "pk": 6,
+        "fields": {
+            "title": "Уютная квартира",
+            "city": 1,
+            "district": "Центр",
+            "property_type": 1,
+            "description": "Уютная квартира в центре города, с видом на парк.",
+            "room_count": 3,
+            "price": 50000.00,
+            "balcony": true,
+            "parking": false,
+            "wifi": true,
+            "landlord": 1
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 2,
+        "fields": {
+            "title": "Студия на окраине",
+            "city": 2,
+            "district": "Окраина",
+            "property_type": 2,
+            "description": "Студия в хорошем районе с развитой инфраструктурой.",
+            "room_count": 1,
+            "price": 20000.00,
+            "balcony": false,
+            "parking": true,
+            "wifi": true,
+            "landlord": 2
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 7,
+        "fields": {
+            "title": "Трёшка у метро",
+            "city": 1,
+            "district": "Московский район",
+            "property_type": 1,
+            "description": "Трёхкомнатная квартира рядом с метро.",
+            "room_count": 3,
+            "price": 60000.00,
+            "balcony": true,
+            "parking": true,
+            "wifi": true,
+            "landlord": 1
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 4,
+        "fields": {
+            "title": "Квартира у парка",
+            "city": 2,
+            "district": "Парк",
+            "property_type": 2,
+            "description": "Уютная квартира рядом с парком.",
+            "room_count": 2,
+            "price": 45000.00,
+            "balcony": true,
+            "parking": false,
+            "wifi": false,
+            "landlord": 0
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 5,
+        "fields": {
+            "title": "Современная квартира",
+            "city": 3,
+            "district": "Юго-запад",
+            "property_type": 1,
+            "description": "Современная квартира с хорошей отделкой.",
+            "room_count": 4,
+            "price": 70000.00,
+            "balcony": true,
+            "parking": true,
+            "wifi": true,
+            "landlord": 1
+        }
+    }
+]

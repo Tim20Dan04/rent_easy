@@ -1,4 +1,4 @@
--- database: ./db.sqlite3
+-- database: c:\Users\timof\Desktop\Poly\rent_easy\db.sqlite3
 INSERT INTO listings_city (id, name, country_id) VALUES (1, 'New York', 1);
 INSERT INTO listings_city (id, name, country_id) VALUES (2, 'Los Angeles', 1);
 INSERT INTO listings_city (id, name, country_id) VALUES (3, 'Chicago', 1);

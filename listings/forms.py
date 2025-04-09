@@ -35,15 +35,29 @@ class PropertySearchForm(forms.Form):
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),
         required=False,
-        label="Страна",
-        widget=forms.Select(attrs={'id': 'id_country'})  # ID для JavaScript
+        label="Страна"
     )
     city = forms.ModelChoiceField(
-        queryset=City.objects.none(),  # Начальный пустой queryset
+        queryset=City.objects.none(),
         required=False,
-        label="Город",
-        widget=forms.Select(attrs={'id': 'id_city'})  # ID для JavaScript
+        label="Город"
     )
+
+    # При создании формы — динамически обновляем queryset для поля city
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Используем данные из POST/GET
+        if 'country' in self.data:
+            try:
+                country_id = int(self.data.get('country'))
+                self.fields['city'].queryset = City.objects.filter(country_id=country_id).order_by('name')
+            except (ValueError, TypeError):
+                pass  # некорректный ввод — оставим пустой queryset
+        elif self.initial.get('country'):
+            # Если у формы передан initial (например, для редактирования)
+            country_id = self.initial.get('country').id
+            self.fields['city'].queryset = City.objects.filter(country_id=country_id).order_by('name')
 
     district = forms.CharField(required=False, label="Район")
     property_type = forms.ModelChoiceField(
@@ -63,3 +77,4 @@ class PropertyForm(forms.ModelForm):
     class Meta:
         model = Property
         fields = ['title', 'description', 'city', 'district', 'property_type', 'room_count', 'price', 'balcony', 'parking', 'wifi', 'landlord', 'image']
+

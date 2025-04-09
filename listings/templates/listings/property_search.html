@@ -16,7 +16,7 @@
         <!-- listings/templates/listings/property_search.html -->
         <h1>Поиск недвижимости</h1>
 
-        <form method="get" action="{% url 'property_search' %}">
+        <form method="get" action="/search/">
             {{ form.as_p }}
             <button type="submit">Поиск</button>
         </form>
@@ -33,6 +33,25 @@
                 <li>Нет доступной недвижимости по заданным критериям.</li>
             {% endfor %}
         </ul>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?{% if request.GET.country %}country={{ request.GET.country }}&{% endif %}
+                              {% if request.GET.city %}city={{ request.GET.city }}&{% endif %}
+                              page={{ page_obj.previous_page_number }}">← Предыдущая</a>
+                {% endif %}
+        
+                <span class="current">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?{% if request.GET.country %}country={{ request.GET.country }}&{% endif %}
+                              {% if request.GET.city %}city={{ request.GET.city }}&{% endif %}
+                              page={{ page_obj.next_page_number }}">Следующая →</a>
+                {% endif %}
+            </span>
+        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
