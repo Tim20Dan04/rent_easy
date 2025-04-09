@@ -3,17 +3,23 @@ from django.http import JsonResponse
 from .models import Property, TenantProfile, LandlordProfile, City
 from .forms import PropertySearchForm, PropertyForm
 from django.core.paginator import Paginator
+from .serializers import PropertySerializer
+from rest_framework import viewsets
 
 
 
 def property_list(request):
     properties = Property.objects.all()
-    print("Представление вызвано")  # Добавьте эту строку
-    return render(request, 'listings/property_list.html', {'properties': properties})
+    print(f"Объекты недвижимости: {properties.count()}")  # Добавьте вывод количества объектов
 
-# def property_list(request):
-#     properties = Property.objects.all()  # Извлечение всех объектов Property
-#     return render(request, 'listings/housing.html', {'properties': properties})
+    paginator = Paginator(properties, 5)
+    page_number = request.GET.get('page')
+    print(f"Номер страницы: {page_number}")  # Отладочный вывод
+
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'listings/property_list.html', {'page_obj': page_obj})
+
 
 
 def home(request):
@@ -44,8 +50,9 @@ def landlord_profile(request):
 
 
 def property_search(request):
-    properties = Property.objects.all()  # Начинаем с всех объектов
+    properties = Property.objects.all()  # Получаем все объекты
 
+    # Логика фильтрации (если нужна)
     if request.method == 'GET':
         form = PropertySearchForm(request.GET or None)
 
@@ -58,11 +65,8 @@ def property_search(request):
             price_max = form.cleaned_data.get('price_max')
             balcony = form.cleaned_data.get('balcony')
             parking = form.cleaned_data.get('parking')
-            furnished = form.cleaned_data.get('furnished')
-            pets_allowed = form.cleaned_data.get('pets_allowed')
             wifi = form.cleaned_data.get('wifi')
 
-            # Применяем фильтры
             if city:
                 properties = properties.filter(city=city)
             if district:
@@ -79,27 +83,18 @@ def property_search(request):
                 properties = properties.filter(balcony=True)
             if parking:
                 properties = properties.filter(parking=True)
-            if furnished:
-                properties = properties.filter(furnished=True)  # Предполагается, что такое поле есть
-            if pets_allowed:
-                properties = properties.filter(pets_allowed=True)  # Предполагается, что такое поле есть
             if wifi:
                 properties = properties.filter(wifi=True)
 
     else:
         form = PropertySearchForm()
 
-    paginator = Paginator(properties, 6)  # 6 объектов на страницу
-    page_number = request.GET.get('page')  # текущая страница из GET-параметра
-    page_obj = paginator.get_page(page_number)  # получаем соответствующую страницу
+    # Пагинация
+    paginator = Paginator(properties, 5)  # 5 объектов на странице
+    page_number = request.GET.get('page')  # Получаем номер страницы из запроса
+    page_obj = paginator.get_page(page_number)  # Получаем объект страницы
 
-    return render(request, 'listings/property_search.html', {
-        'form': form,
-        'page_obj': page_obj,
-        'properties': page_obj.object_list,  # чтобы не менять шаблон сильно
-    })
-
-    return render(request, 'listings/property_search.html', {'form': form, 'properties': properties})
+    return render(request, 'listings/property_search.html', {'form': form, 'page_obj': page_obj})
 
 def create_property(request):
     if request.method == 'POST':
@@ -116,3 +111,9 @@ def load_cities(request):
     cities = City.objects.filter(country_id=country_id).order_by('name')  # Фильтруем города
     city_list = [{'id': city.id, 'name': city.name} for city in cities]  # Подготавливаем данные
     return JsonResponse({'cities': city_list})  # Возвращаем данные в формате JSON
+
+# REST
+
+class PropertyViewSet(viewsets.ModelViewSet):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer

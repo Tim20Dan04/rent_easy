@@ -1,7 +1,10 @@
-# rent_easy/listings/urls.py
-
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .views import PropertyViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'properties', PropertyViewSet)
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -16,4 +19,6 @@ urlpatterns = [
     path('create/', views.create_property, name='create_property'),
 
     path('ajax/load-cities/', views.load_cities, name='ajax_load_cities'),
+
+    path('api/', include(router.urls)),
 ]

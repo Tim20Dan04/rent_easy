@@ -50,3 +50,34 @@ li {
 input {
     padding: 10px;
 }
+
+.property_search {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 20px 0;
+    gap: 25px;
+    width: 100%;
+}
+
+.property_list {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.5rem;
+    max-width: 100%;
+    gap: 10px;
+    border: #ff820e 1px solid;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.property_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.property_img {
+    width: 30%;
+    border-radius: 5px;
+}

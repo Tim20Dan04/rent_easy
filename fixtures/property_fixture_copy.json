@@ -1,0 +1,92 @@
+[
+    {
+        "model": "listings.property",
+        "pk": 8,
+        "fields": {
+            "title": "Квартира в центре города",
+            "city": 1,
+            "district": "Центр",
+            "property_type": 1,
+            "description": "Просторная квартира с видом на город, рядом с парком.",
+            "room_count": 3,
+            "price": "75000.00",
+            "balcony": true,
+            "parking": true,
+            "wifi": true,
+            "landlord": 1,
+            "image": "properties/central_apartment.jpg"
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 9,
+        "fields": {
+            "title": "Элитная квартира с панорамным видом",
+            "city": 1,
+            "district": "Бизнес-центр",
+            "property_type": 2,
+            "description": "Квартира с современным ремонтом и панорамным видом на реку.",
+            "room_count": 4,
+            "price": "120000.00",
+            "balcony": true,
+            "parking": true,
+            "wifi": true,
+            "landlord": 2,
+            "image": "properties/panoramic_apartment.jpg"
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 10,
+        "fields": {
+            "title": "Студия с ремонтом в новом доме",
+            "city": 2,
+            "district": "Спальный район",
+            "property_type": 1,
+            "description": "Современная студия с новой мебелью в новом доме.",
+            "room_count": 1,
+            "price": "45000.00",
+            "balcony": false,
+            "parking": true,
+            "wifi": true,
+            "landlord": 1,
+            "image": "properties/studio_1.jpg"
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 11,
+        "fields": {
+            "title": "Дом на берегу озера",
+            "city": 3,
+            "district": "Приозерный",
+            "property_type": 2,
+            "description": "Прекрасный дом с выходом на озеро, идеально подходит для отдыха.",
+            "room_count": 6,
+            "price": "250000.00",
+            "balcony": true,
+            "parking": true,
+            "wifi": true,
+            "landlord": 3,
+            "image": "properties/lake_house.jpg"
+        }
+    },
+    {
+        "model": "listings.property",
+        "pk": 12,
+        "fields": {
+            "title": "Коттедж в лесу",
+            "city": 2,
+            "district": "Лесной массив",
+            "property_type": 3,
+            "description": "Уютный коттедж в лесной зоне, идеально для уединённого отдыха.",
+            "room_count": 4,
+            "price": "85000.00",
+            "balcony": true,
+            "parking": true,
+            "wifi": false,
+            "landlord": 2,
+            "image": "properties/forest_cottage.jpg"
+        }
+    }
+]

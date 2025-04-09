@@ -16,41 +16,59 @@
         <!-- listings/templates/listings/property_search.html -->
         <h1>Поиск недвижимости</h1>
 
-        <form method="get" action="/search/">
+        <form method="get" action="">
+            <!-- Форма для фильтрации (как была) -->
             {{ form.as_p }}
             <button type="submit">Поиск</button>
         </form>
-
-        <ul>
-            {% for property in properties %}
-                <li>
-                    <h2>{{ property.title }}</h2>
-                    <p>{{ property.description }}</p>
-                    <p>Цена: {{ property.price }} руб.</p>
-                    <p>Арендодатель: {{ property.landlord.name }}</p>
-                </li>
+        
+        <!-- Список недвижимости -->
+        <div class="property_search">
+            {% for property in page_obj %}
+                <div class="property_list" style="font-size: 1.5rem;">
+                    {% if property.image %}
+                        <img class="property_img" src="{{ property.image.url }}" alt="{{ property.title }}" width="30%"/>
+                    {% endif %}
+                    <div class="property_text">
+                        <h3>{{ property.title }}</h3>
+                        <p>{{ property.description }}</p>
+                        <p>Цена: {{ property.price }} руб.</p>
+                        <p>Город: {{ property.city.name }}</p>
+                    </div>
+                </div>
             {% empty %}
-                <li>Нет доступной недвижимости по заданным критериям.</li>
+                <p>Нет объектов, соответствующих критериям поиска.</p>
             {% endfor %}
-        </ul>
+        </div>
+        
+        <!-- Пагинация -->
         <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
-                    <a href="?{% if request.GET.country %}country={{ request.GET.country }}&{% endif %}
-                              {% if request.GET.city %}city={{ request.GET.city }}&{% endif %}
-                              page={{ page_obj.previous_page_number }}">← Предыдущая</a>
+                    <a href="?page=1">&laquo; Первая</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
                 {% endif %}
         
                 <span class="current">
-                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
                 </span>
         
                 {% if page_obj.has_next %}
-                    <a href="?{% if request.GET.country %}country={{ request.GET.country }}&{% endif %}
-                              {% if request.GET.city %}city={{ request.GET.city }}&{% endif %}
-                              page={{ page_obj.next_page_number }}">Следующая →</a>
+                    <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
                 {% endif %}
             </span>
+        
+            <!-- Кнопки для перехода к страницам -->
+            <div class="page-links">
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <span class="current-page">{{ i }}</span>
+                    {% else %}
+                        <a href="?page={{ i }}">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
