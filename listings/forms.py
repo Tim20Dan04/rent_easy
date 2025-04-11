@@ -19,18 +19,6 @@ class SignUpForm(UserCreationForm):
             user.save()
         return user
 
-# class PropertySearchForm(forms.Form):
-#     country = forms.ModelChoiceField(
-#         queryset = Country.objects.all(),
-#         required = False,
-#         label="Страна"
-#     )
-#     city = forms.ModelChoiceField(
-#         queryset = City.objects.all(),
-#         required = False,
-#         label="Город"
-#     )
-
 class PropertySearchForm(forms.Form):
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),

@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import Property
+from .models import Property, Landlord
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ['id', 'title', 'city', 'district', 'property_type', 'description', 'room_count', 'price', 'balcony', 'parking', 'wifi', 'landlord', 'image']
+        fields = '__all__'
+
+class LandlordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Landlord
+        fields = '__all__'

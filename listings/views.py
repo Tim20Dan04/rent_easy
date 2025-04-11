@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import Property, TenantProfile, LandlordProfile, City
+from .models import Property, Landlord, TenantProfile, LandlordProfile, City
 from .forms import PropertySearchForm, PropertyForm
 from django.core.paginator import Paginator
-from .serializers import PropertySerializer
+from .serializers import PropertySerializer, LandlordSerializer
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -26,7 +29,7 @@ def home(request):
     properties = Property.objects.all()[:5]  # Примеры жилья
     return render(request, 'listings/home.html', {'properties': properties})
 
-def search(request):
+def search(request):    
     # Логика поиска
     return render(request, 'listings/search.html')
 
@@ -117,3 +120,66 @@ def load_cities(request):
 class PropertyViewSet(viewsets.ModelViewSet):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['city', 'property_type', 'balcony', 'wifi', 'parking']
+
+    @action(methods=['GET'], detail=False)
+    def get_property_list(self, request):
+        queryset = Property.objects.all()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = PropertySerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = PropertySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(methods=['POST'], detail=True)
+    def update_property_info(self, request, pk=None):
+
+        property_instance = self.get_object()
+        
+        new_price = request.data.get('price')
+        if new_price:
+            property_instance.price = new_price
+            property_instance.save()
+            return Response({"status": "Price updated successfully"})
+        else:
+            return Response({"status": "No price provided"}, status=400)
+        
+        new_title = request.data.get('title')
+        if new_title:
+            property_instance.title = new_title
+            property_instance.save()
+            return Response({"status": "Title updated successfully"})
+        else:
+            return Response({"status": "No title provided"}, status=400)
+        
+
+class LandlordViewSet(viewsets.ModelViewSet):
+    queryset = Landlord.objects.all()
+    serializer_class = LandlordSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['name', 'email', 'phone']
+
+    @action(methods=['GET'], detail=False)
+    def get_property_list(self, request):
+        queryset = Landlord.objects.all()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = LandlordSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = LandlordSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(methods=['POST'], detail=True)
+    def update_landlord_info(self, request, pk=None):
+
+        landlord_instance = self.get_object()
+        
+        new_name = request.data.get('name')
+        if new_name:
+            landlord_instance.name = new_name
+            landlord_instance.save()
+            return Response({"status": "Name updated successfully"})
+        else:
+            return Response({"status": "No name provided"}, status=400)

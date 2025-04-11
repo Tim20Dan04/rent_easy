@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from simple_history.models import HistoricalRecords
 
 
 class Property(models.Model):
@@ -17,6 +18,8 @@ class Property(models.Model):
     wifi = models.BooleanField("Wi-Fi", default=False)
     landlord = models.ForeignKey('Landlord', on_delete=models.CASCADE, related_name='properties', verbose_name="Арендодатель", default=0)
     image = models.ImageField(upload_to='properties/', blank=True, null=True)
+
+    history = HistoricalRecords()
     
     def __str__(self):
         return f"{self.title}"
@@ -41,10 +44,11 @@ class City(models.Model):
         return f"{self.name} {self.country.name}"
 
 class Landlord(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="landlord_profile")
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
