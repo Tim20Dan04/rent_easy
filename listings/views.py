@@ -8,6 +8,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 
 
 
@@ -132,6 +133,21 @@ class PropertyViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         serializer = PropertySerializer(queryset, many=True)
         return Response(serializer.data)
+    
+    @action(methods=['GET'], detail=False)
+    
+    def with_some_feature(self, request):
+        # """
+        # Возвращает все объекты, у которых есть хотя бы один из признаков:
+        # - балкон
+        # - Wi-Fi
+        # - парковка
+        # """
+        queryset = Property.objects.filter(
+            Q(balcony=True) | Q(wifi=True) | Q(parking=True)
+        )
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     @action(methods=['POST'], detail=True)
     def update_property_info(self, request, pk=None):
@@ -146,13 +162,13 @@ class PropertyViewSet(viewsets.ModelViewSet):
         else:
             return Response({"status": "No price provided"}, status=400)
         
-        new_title = request.data.get('title')
-        if new_title:
-            property_instance.title = new_title
-            property_instance.save()
-            return Response({"status": "Title updated successfully"})
-        else:
-            return Response({"status": "No title provided"}, status=400)
+        # new_title = request.data.get('title')
+        # if new_title:
+        #     property_instance.title = new_title
+        #     property_instance.save()
+        #     return Response({"status": "Title updated successfully"})
+        # else:
+        #     return Response({"status": "No title provided"}, status=400)
         
 
 class LandlordViewSet(viewsets.ModelViewSet):
